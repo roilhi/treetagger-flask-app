@@ -13,7 +13,7 @@ db = client['db_perfilador']
 col_nouns = db['nouns_collection']
 col_verbs = db['verbs_collection']
 
-tagger = treetaggerwrapper.TreeTagger(TAGLANG='en', TAGDIR='/app/treetagger')
+tagger = treetaggerwrapper.TreeTagger(TAGLANG='en', TAGDIR='treetagger')
 
 # Función que realiza el tag a cada palabra del texto, busca en 
 # la base de datos de MongoDB y además contabiliza los resultados

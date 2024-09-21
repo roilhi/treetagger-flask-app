@@ -3,5 +3,4 @@
 *.txt
 *.pycache
 treetagger_win/
-treetagger/
 venv/
