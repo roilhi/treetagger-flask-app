@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMorphC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+        }
+        #sideMenu {
+            width: 200px;
+            float: left;
+            border-right: 1px solid #ddd;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        #content {
+            margin-left: 210px;
+            padding: 20px;
+        }
+        .file-name {
+            cursor: pointer;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .file-name:hover {
+            background-color: #f0f0f0;
+        }
+        table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        .inline-image {
+            width: 300px; /* Adjust the image width */
+            height: auto;
+            /*vertical-align: left; */
+            float: left;
+            margin-right: 10px; /* Optional spacing between image and text */
+        }
+    </style>
+</head>
+<div id="sideMenu">
+  <h3>Uploaded Files</h3>
+  <div id="fileList"></div>
+</div>
+
+<div>
+    
+  <h3>DMorphC: A corpus-based web tool for derivational morphemes countings </h3>
+  <img src="{{ url_for('static', filename='images/logo_dmorphC.png') }}" alt="logo" class="inline-image">
+  <p> This application has been developed by UAEH, UAEMEX and UASLP Mx</p>
+
+  <pre id="fileContent"> Click </b>Upload file</b>, then click on the txt filename at the left menu to tag and count each word in a text file.</pre>
+  <input type="file" id="fileInput" multiple />
+  <button onclick="uploadFiles()">Upload Files</button>
+<div id="content">
+    <h3> Tagger and counter table </h3>
+    <div id="tableContainer"> </div>
+</div>
+</div>
+
+</div>
+
+<script>
+
+  // Store the uploaded files
+  let uploadedFiles = [];
+
+  // Function to upload files
+  function uploadFiles() {
+      const files = document.getElementById('fileInput').files;
+      if (files.length === 0) {
+          alert('Please select at least one file.');
+          return;
+      }
+
+      const formData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+          formData.append('files', files[i]);
+      }
+
+      fetch('/upload', {
+          method: 'POST',
+          body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+          uploadedFiles = [...uploadedFiles, ...data.files];
+          updateFileList();
+      })
+      .catch(error => console.error('Error uploading files:', error));
+  }
+
+  function updateFileList() {
+      const fileListDiv = document.getElementById('fileList');
+      fileListDiv.innerHTML = ''; 
+      uploadedFiles.forEach((file, index) => {
+          const fileNameDiv = document.createElement('div');
+          fileNameDiv.textContent = file;
+          fileNameDiv.classList.add('file-name');
+          fileNameDiv.onclick = () => FetchTagAndCount(file); // Attach event listener
+          fileListDiv.appendChild(fileNameDiv);
+      });
+  }
+  // Function to load the content of a selected file
+  function FetchTagAndCount(fileName) {
+      fetch(`/process/${fileName}`)
+          .then(response => response.json())
+          .then(data => {
+              const tableContainer =  document.getElementById('tableContainer');
+              tableContainer.innerHTML = data.table;
+          })
+          .catch(error => console.error('Error processing data', error));
+  }
+</script>
+
+
+</html>
