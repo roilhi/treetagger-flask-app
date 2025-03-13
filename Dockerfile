@@ -6,19 +6,19 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Set the working directory
+# Set the working directory for the app
 WORKDIR /app
 
-# Copy requirements and install dependencies first for better caching
+# Copy requirements and install dependencies
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application files
 COPY . /app
 
-# Create and set up TreeTagger
-RUN mkdir /app/treetagger && \
-    cd /app/treetagger && \
+# Create and set up TreeTagger outside the app directory
+RUN mkdir /treetagger && \
+    cd /treetagger && \
     wget https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/tree-tagger-linux-3.2.4.tar.gz && \
     tar -xzf tree-tagger-linux-3.2.4.tar.gz && \
     wget https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/tagger-scripts.tar.gz && \
