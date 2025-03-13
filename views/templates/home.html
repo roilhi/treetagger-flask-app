@@ -46,6 +46,9 @@
             float: left;
             margin-right: 10px; /* Optional spacing between image and text */
         }
+        .button-space{
+            margin-top: 15px;
+        }
     </style>
 </head>
 <div id="sideMenu">
@@ -59,15 +62,19 @@
   <img src="{{ url_for('static', filename='images/logo_dmorphC.png') }}" alt="logo" class="inline-image">
   <p> This application has been developed by UAEH, UAEMEX and UASLP Mx</p>
 
-  <pre id="fileContent"> Click </b>Upload file</b>, then click on the txt filename at the left menu to tag and count each word in a text file.</pre>
+  <pre id="fileContent"> Click <b>Upload file</b>, then click on the txt filename at the left menu to tag and count each word in a text file.</pre>
   <input type="file" id="fileInput" multiple />
   <button onclick="uploadFiles()">Upload Files</button>
-<div id="content">
+
+  <div>
+    <button class="button-space"> Download tagged file</button>
+  </div>
+
+  <div id="content">
     <h3> Tagger and counter table </h3>
     <div id="tableContainer"> </div>
 </div>
 </div>
-
 </div>
 
 <script>
