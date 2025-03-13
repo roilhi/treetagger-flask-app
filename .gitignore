@@ -2,5 +2,6 @@
 *.csv
 *.txt
 *.pycache
+__pycache__/
 treetagger_win/
 venv/
