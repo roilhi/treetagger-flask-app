@@ -17,18 +17,23 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app
 
 # Create and set up TreeTagger
-RUN mkdir /app/treetagger && \
-    cd /app/treetagger && \
-    wget https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/tree-tagger-linux-3.2.4.tar.gz && \
-    tar -xzf tree-tagger-linux-3.2.4.tar.gz && \
-    wget https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/tagger-scripts.tar.gz && \
-    tar -xzf tagger-scripts.tar.gz && \
-    wget https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/install-tagger.sh && \
-    chmod +x install-tagger.sh && \
-    ./install-tagger.sh && \
-    wget https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/english.par.gz
+#RUN mkdir /app/treetagger && \
+#    cd /app/treetagger && \
+#    wget https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/tree-tagger-linux-3.2.4.tar.gz && \
+#    tar -xzf tree-tagger-linux-3.2.4.tar.gz && \
+#    wget https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/tagger-scripts.tar.gz && \
+#    tar -xzf tagger-scripts.tar.gz && \
+#    wget https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/install-tagger.sh && \
+#    chmod +x install-tagger.sh && \
+#    ./install-tagger.sh && \
+#    wget https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/english.par.gz
 
-RUN chmod -R 755 /app/treetagger/bin/
+RUN groupadd docker \
+    && useradd -g docker docker
+
+RUN chown -R docker:docker /app/
+
+WORKDIR /app/
 
 # Expose the Flask application's port
 EXPOSE 5000
