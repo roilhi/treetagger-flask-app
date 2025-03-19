@@ -28,6 +28,7 @@ RUN mkdir /app/treetagger && \
     ./install-tagger.sh && \
     wget https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/english.par.gz
 
+RUN find app/ -type f -exec chmod 664 {} \;
 RUN find app/ -type d -exec chmod 775 {} \;
 
 # Expose the Flask application's port
