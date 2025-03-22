@@ -33,6 +33,8 @@ RUN groupadd docker \
 
 RUN chown -R docker:docker /app/
 
+USER docker
+
 # Verifica si existe
 RUN if [ -e "/app/treetagger/bin/tree-tagger" ]; then \
         chmod +x /app/treetagger/bin/tree-tagger; \
