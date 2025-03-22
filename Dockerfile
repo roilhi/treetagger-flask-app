@@ -36,12 +36,19 @@ RUN mkdir /app/treetagger && \
 #USER docker
 
 # Verifica si existe
-RUN if [ -e "/app/treetagger/bin/tree-tagger" ]; then \
-        chmod +x /treetagger/bin/tree-tagger; \
-    fi && \
-    if [ -d "/app/treetagger" ]; then \
-        chmod +x /treetagger/; \
-    fi
+#RUN if [ -e "/app/treetagger/bin/tree-tagger" ]; then \
+#        chmod +x /app/treetagger/bin/tree-tagger; \
+#    fi && \
+#    if [ -d "/app/treetagger" ]; then \
+#        chmod +x /app/treetagger/; \
+#    fi
+
+# Establecer el directorio de trabajo para que las rutas sean relativas
+WORKDIR /app
+
+# Establecer permisos adecuados para TreeTagger
+RUN find /app/treetagger/ -type f -exec chmod 775 {} \;
+
 
 # Expose the Flask application's port
 EXPOSE 5000
