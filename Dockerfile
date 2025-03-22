@@ -31,17 +31,19 @@ RUN mkdir /app/treetagger && \
 RUN groupadd docker \
     && useradd -g docker docker
 
-RUN chown -R docker:docker /app/treetagger
+RUN chown -R docker:docker /app/treetagger/bin 
 
-RUN chmod -R 755 ./treetagger
-
-WORKDIR /app/
+RUN chmod +x /app/treetagger/bin/treetagger
 
 # Expose the Flask application's port
 EXPOSE 5000
 
 # Run the Flask application
 CMD ["python3", "app.py"]
+
+#Add the models.
+COPY ./treetagger/lib /app/treetagger/lib
+COPY ./treetagger/models /app/treetagger/models
 
 
 
