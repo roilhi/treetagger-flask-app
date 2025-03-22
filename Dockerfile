@@ -33,7 +33,7 @@ RUN groupadd docker \
 
 RUN chown -R docker:docker /app/
 
-RUN chmod -R 775 /app/treetagger
+RUN chmod +x /app/treetagger/bin/treetagger
 
 WORKDIR /app/
 
