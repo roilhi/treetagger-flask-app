@@ -94,7 +94,8 @@
       for (let i = 0; i < files.length; i++) {
           formData.append('files', files[i]);
       }
-
+      const fileListDiv = document.getElementById('fileList');
+      fileListDiv.innerHTML = 'Files are processing, please wait ...';
       fetch('/upload', {
           method: 'POST',
           body: formData
