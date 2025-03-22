@@ -37,10 +37,10 @@ RUN mkdir /app/treetagger && \
 
 # Verifica si existe
 RUN if [ -e "/app/treetagger/bin/tree-tagger" ]; then \
-        chmod +x /app/treetagger/bin/tree-tagger; \
+        chmod +x /treetagger/bin/tree-tagger; \
     fi && \
     if [ -d "/app/treetagger" ]; then \
-        chmod +x /app/treetagger; \
+        chmod +x /treetagger/; \
     fi
 
 # Expose the Flask application's port
