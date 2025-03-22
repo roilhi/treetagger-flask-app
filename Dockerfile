@@ -33,7 +33,13 @@ RUN groupadd docker \
 
 RUN chown -R docker:docker /app/
 
-RUN chmod +x /app/treetagger
+# Verifica si existe
+RUN if [ -e "/app/treetagger/bin/tree-tagger" ]; then \
+        chmod +x /app/treetagger/bin/tree-tagger; \
+    fi && \
+    if [ -d "/app/treetagger" ]; then \
+        chmod +x /app/treetagger; \
+    fi
 
 # Expose the Flask application's port
 EXPOSE 5000
