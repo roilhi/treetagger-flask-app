@@ -41,9 +41,6 @@ EXPOSE 5000
 # Run the Flask application
 CMD ["python3", "app.py"]
 
-#Add the models.
-COPY ./treetagger/lib /app/treetagger/lib
-COPY ./treetagger/models /app/treetagger/models
 
 
 
