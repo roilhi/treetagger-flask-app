@@ -28,12 +28,12 @@ RUN mkdir /app/treetagger && \
     ./install-tagger.sh && \
     wget https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/english.par.gz
 
-RUN groupadd docker \
-    && useradd -g docker docker
+#RUN groupadd docker \
+#    && useradd -g docker docker
 
-RUN chown -R docker:docker /app/
+#RUN chown -R docker:docker /app/
 
-USER docker
+#USER docker
 
 # Verifica si existe
 RUN if [ -e "/app/treetagger/bin/tree-tagger" ]; then \
