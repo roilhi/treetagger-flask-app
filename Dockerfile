@@ -31,7 +31,7 @@ RUN mkdir /app/treetagger && \
 RUN groupadd docker \
     && useradd -g docker docker
 
-RUN chown -R docker:docker /app/
+RUN chown -R docker:docker /app/treetagger
 
 RUN chmod +x /app/treetagger/bin/tree-tagger
 
