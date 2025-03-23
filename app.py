@@ -15,7 +15,7 @@ col_verbs = db['verbs_collection']
 my_tagdir = os.getenv('TAGDIR')
 if not my_tagdir:
     raise EnvironmentError('Enviroment TAGDIR not set properly')
-tagger = treetaggerwrapper.TreeTagger(TAGLANG='en', TAGDIR='treetagger')
+tagger = treetaggerwrapper.TreeTagger(TAGLANG='en', TAGDIR=my_tagdir)
 
 # Función que realiza el tag a cada palabra del texto, busca en 
 # la base de datos de MongoDB y además contabiliza los resultados

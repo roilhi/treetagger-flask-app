@@ -49,8 +49,8 @@ WORKDIR /app
 # Establecer permisos adecuados para TreeTagger
 RUN find /app/treetagger/ -type f -exec chmod 775 {} \;
 
-RUN export TAGDIR='app/treetagger/TreeTagger'
-
+ENV TAGDIR=/app/treetagger
+RUN echo "export TAGDIR=/app/treetagger" >> /etc/profile
 # Expose the Flask application's port
 EXPOSE 5000
 
