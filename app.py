@@ -12,8 +12,10 @@ client = MongoClient(conn_str)
 db = client['db_perfilador']
 col_nouns = db['nouns_collection']
 col_verbs = db['verbs_collection']
-
-tagger = treetaggerwrapper.TreeTagger(TAGLANG='en', TAGDIR='/app/treetagger')
+my_tagdir = os.getenv('TAGDIR')
+if not my_tagdir:
+    raise EnvironmentError('Enviroment TAGDIR not set properly')
+tagger = treetaggerwrapper.TreeTagger(TAGLANG='en', TAGDIR=my_tagdir)
 
 # Función que realiza el tag a cada palabra del texto, busca en 
 # la base de datos de MongoDB y además contabiliza los resultados

@@ -8,7 +8,6 @@ services:
     volumes:
       - .:/app
     environment:
-      - FLASK_ENV=development  # Or "production" depending on your needs
-      - PYTHONUNBUFFERED=1
+    - TAGDIR=/app/treetagger
     restart: unless-stopped
 
