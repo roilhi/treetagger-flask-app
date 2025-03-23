@@ -7,8 +7,7 @@ services:
       - "5000:5000"
     volumes:
       - .:/app
-      - /app/treetagger
     environment:
-    - TAGDIR=/app/treetagger
+      - TAGDIR=/app/treetagger  # This should be set correctly
     restart: unless-stopped
 
