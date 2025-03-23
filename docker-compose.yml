@@ -9,6 +9,6 @@ services:
       - .:/app
       - /app/treetagger
     environment:
-    - TAGDIR=/app/treetagger/lib
+    - TAGDIR=/app/treetagger
     restart: unless-stopped
 
