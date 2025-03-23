@@ -23,10 +23,11 @@ RUN mkdir /app/treetagger && \
     tar -xzf tree-tagger-linux-3.2.4.tar.gz && \
     wget https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/tagger-scripts.tar.gz && \
     tar -xzf tagger-scripts.tar.gz && \
+    wget https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/english.par.gz && \
+    mv english.par /app/treetagger/lib/ && \
     wget https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/install-tagger.sh && \
     chmod +x install-tagger.sh && \
-    ./install-tagger.sh && \
-    wget https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/english.par.gz
+    ./install-tagger.sh 
 
 #RUN groupadd docker \
 #    && useradd -g docker docker
