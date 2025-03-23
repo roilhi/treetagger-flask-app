@@ -12,6 +12,7 @@ client = MongoClient(conn_str)
 db = client['db_perfilador']
 col_nouns = db['nouns_collection']
 col_verbs = db['verbs_collection']
+os.environ['TAGDIR'] = '/app/treetagger'
 my_tagdir = os.getenv('TAGDIR')
 if not my_tagdir:
     raise EnvironmentError('Enviroment TAGDIR not set properly')
