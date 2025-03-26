@@ -2,7 +2,7 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 import os
 import treetaggerwrapper
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, send_file
 import pandas as pd
 from pymongo import MongoClient
 
@@ -14,6 +14,8 @@ col_nouns = db['nouns_collection']
 col_verbs = db['verbs_collection']
 os.environ['TAGDIR'] = '/app/treetagger'
 my_tagdir = os.getenv('TAGDIR')
+global file_names
+
 if not my_tagdir:
     raise EnvironmentError('Enviroment TAGDIR not set properly')
 tagger = treetaggerwrapper.TreeTagger(TAGLANG='en', TAGDIR=my_tagdir)
@@ -23,6 +25,7 @@ tagger = treetaggerwrapper.TreeTagger(TAGLANG='en', TAGDIR=my_tagdir)
 def TagAndCount(text_file):
     tags = tagger.tag_file(text_file)
     total_list = []
+    tagged_text = []
     for tag in tags:
         elem = tag.split('\t')
         if len(elem) ==3:
@@ -37,6 +40,9 @@ def TagAndCount(text_file):
                          "PoS_tag":"NF","word_PoS":"NF"}
         if found is not None:
             total_list.append(found)
+            tagged_text.append(found['complex_words']+'_'+found['PoS_tag']+'_<'+found['suffix']+'>')
+        else:
+            tagged_text.append(elem[0]+'_'+elem[1]+'_<NF>')
     df_words = pd.DataFrame(total_list)
     df_words = df_words[~df_words.isin(['NF']).any(axis=1)]
     counts_suffix = df_words['suffix'].value_counts()
@@ -54,10 +60,9 @@ def TagAndCount(text_file):
         if isinstance(word, list):  
             return [f"{a} ({mapping.get(a, '')})" for a in word]
         else:  # If it's a single animal
-            return f"{word} ({mapping.get(word, '')})"
-        
+            return f"{word} ({mapping.get(word, '')})"        
     result["complex_words"] = result["complex_words"].apply(append_numerals)
-    return result
+    return result, tagged_text
 
 app = Flask(__name__, template_folder="views/templates", static_folder="views/static")
 
@@ -76,7 +81,6 @@ def home():
 def upload_files():
     uploaded_files = request.files.getlist('files')
     file_names = []
-
     for file in uploaded_files:
         filename = file.filename
         file_path = os.path.join(UPLOAD_FOLDER, filename)
@@ -89,8 +93,10 @@ def process_file(filename):
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     if not os.path.exists(filepath):
         return jsonify({'error': 'File not found'}), 404
-    tager_counter_df = TagAndCount(filepath)
+    tager_counter_df , tagged_list_text = TagAndCount(filepath)
     table_html = tager_counter_df.to_html(index=False)
-    return jsonify({'table': table_html})
+    return jsonify({'table': table_html,'tag_list':tagged_list_text})
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

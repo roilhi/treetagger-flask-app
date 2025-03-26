@@ -20,6 +20,7 @@ tags = tagger.tag_file('CORPUS A2.txt')
 #pprint.pprint(tags2)
 total_list = []
 ttags = []
+tagged_text = []
 for tag in tags:
     elem = tag.split('\t')
     if len(elem) ==3:
@@ -35,6 +36,9 @@ for tag in tags:
             # hacer una distribución con todos los textos 
     if found is not None:
         total_list.append(found)
+        tagged_text.append(found['complex_words']+'_'+found['PoS_tag']+'_<'+found['suffix']+'>')
+    else:
+        tagged_text.append(elem[0]+'_'+elem[1]+'_<NF>')
 df_words = pd.DataFrame(total_list)
 df_words = df_words[~df_words.isin(['NF']).any(axis=1)]
 #df_words.to_csv('found_A2.csv', index=False)
@@ -57,5 +61,11 @@ def append_numerals(word):
 
 result["complex_words"] = result["complex_words"].apply(append_numerals)
 
+with open('tagged_text.txt', mode='w', encoding='utf-8-sig') as f:
+    for item in tagged_text:
+        f.write("%s " % item)
+#print(tagged_text)
+
+#print(total_list)
 
 print(result)

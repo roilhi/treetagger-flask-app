@@ -16,6 +16,9 @@
             height: 100vh;
             overflow-y: auto;
         }*/
+        .h3-centered{
+            margin-left: 150px;
+        }
         #content {
             margin-left: 210px;
             padding: 20px;
@@ -58,7 +61,7 @@
 
 <div>
     
-  <h3>DMorphC: A corpus-based web tool for derivational morphemes countings </h3>
+  <h3 class="h3-centered"> DMorphC: A corpus-based web tool for derivational morphemes countings </h3>
   <img src="{{ url_for('static', filename='images/logo_dmorphC.png') }}" alt="logo" class="inline-image">
   <p> This application has been developed by UAEH, UAEMEX and UASLP Mx</p>
 
@@ -67,7 +70,7 @@
   <button onclick="uploadFiles()">Upload Files</button>
 
   <div>
-    <button class="button-space"> Download tagged file</button>
+    <button id="DownloadButton" class="button-space"> Download tagged file</button>
   </div>
 
   <div id="content">
@@ -125,16 +128,44 @@
       });
   }
   // Function to load the content of a selected file
+  let tag_list = [];
+  let tag_txt_filename;
   function FetchTagAndCount(fileName) {
       fetch(`/process/${fileName}`)
           .then(response => response.json())
           .then(data => {
               const tableContainer =  document.getElementById('tableContainer');
               tableContainer.innerHTML = data.table;
+              // console.log(data.tag_list);
+              tag_list = data.tag_list;
+              tag_txt_filename = fileName + '_tagged.txt';
           })
           .catch(error => console.error('Error processing data', error));
   }
-</script>
 
+  document.getElementById('DownloadButton').addEventListener("click",() => {
+        if (tag_list.length == 0){
+            alert("Please upload a file");
+            return;
+        }
+        //let tag_list_cleaned = tag_list.filter(item => item!='.' || item != ',' || item !='`');
+        // alert("Download has started");
+         let tag_data_unpacked = " ";
+        tag_list.forEach( tagged_word =>{
+            tag_data_unpacked += tagged_word.trim() + "\n";
+         }); 
+        // const text = JSON.stringify(tag_data_unpacked, null, 2); // Formatear JSON
+        const blob = new Blob([tag_data_unpacked], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = tag_txt_filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+  ); 
+</script>
 
 </html>
