@@ -150,9 +150,9 @@
         }
         //let tag_list_cleaned = tag_list.filter(item => item!='.' || item != ',' || item !='`');
         // alert("Download has started");
-         let tag_data_unpacked = " ";
+        let tag_data_unpacked = " ";
         tag_list.forEach( tagged_word =>{
-            tag_data_unpacked += tagged_word.trim() + "\n";
+            tag_data_unpacked += tagged_word.trim()+ " ";
          }); 
         // const text = JSON.stringify(tag_data_unpacked, null, 2); // Formatear JSON
         const blob = new Blob([tag_data_unpacked], { type: "text/plain" });
