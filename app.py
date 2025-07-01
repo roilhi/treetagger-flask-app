@@ -108,5 +108,9 @@ def process_file(filename):
     table_html = tager_counter_df.to_html(index=False)
     return jsonify({'table': table_html, 'tag_list': tagged_list_text})
 
+@app.route('/suff_table')
+def suff_table():
+    return render_template('suff_table.html')
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

@@ -3,21 +3,16 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DMorphC</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <title>-Morph-</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
+        .title-centered{
+            margin-top: 30px;
+            margin-left: 120px;
         }
-        /*#sideMenu {
-            width: 200px;
-            float: left;
-            border-right: 1px solid #ddd;
-            height: 100vh;
-            overflow-y: auto;
-        }*/
         .h3-centered{
-            margin-left: 150px;
+            margin-left: 120px;
+            /* margin-top: 50px;*/
         }
         #content {
             margin-left: 210px;
@@ -52,33 +47,62 @@
         .button-space{
             margin-top: 15px;
         }
+        img {
+                max-width: 10%;
+                height: 10%;
+            }
     </style>
 </head>
 <!--<div id="sideMenu">
   <h3>Uploaded Files</h3>
   <div id="fileList"></div>
 </div>-->
-
-<div>
-    
-  <h3 class="h3-centered"> DMorphC: A corpus-based web tool for derivational morphemes countings </h3>
-  <img src="{{ url_for('static', filename='images/logo_dmorphC.png') }}" alt="logo" class="inline-image">
-  <p> This application has been developed by UAEH, UAEMEX and UASLP Mx</p>
-
-  <pre id="fileContent"> Click <b>Upload file</b>, then click on the txt filename at the left menu to tag and count each word in a text file.</pre>
-  <input type="file" id="fileInput" multiple />
-  <button onclick="uploadFiles()">Upload Files</button>
-
-  <div>
-    <button id="DownloadButton" class="button-space"> Download tagged file</button>
+<body>
+    <div>
+        <h2 class="title-centered"> Morph </h2>  
+        <h3 class="h3-centered"> A corpus-based web tool for derivational noun suffixes counting and the identification of the complex words containing them </h3>
+    </div>
+ 
+<div class="container p-3">
+<div class="card mb-3" style="max-width: 740px;">
+  <div class="row g-0 d-flex align-items-center">
+    <div class="col-md-4">
+      <img src="/static/images/MorphLogo.jpg" class="img-fluid rounded-start" alt="Card image">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <p class="card-text"> This application has been developed by Universidad Autónoma del Estado de México & 
+    Universidad Autónoma de San Luis Potosi and financed by Secretaría de Ciencia, Humanidades, Tecnología e Innovación.
+    Morphological characteristics of the noun suffixes for this version have been 
+    adapted from Stein (2007), Laws & Ryder (2014) and Oxford University Press (2025).</p>
+      </div>
+      <a href="{{ url_for('suff_table') }}" class="stretched-link">See suffixes table </a>
+    </div>
   </div>
+</div>
 
-  <div id="content">
-    <h3> Tagger and counter table </h3>
-    <div id="tableContainer"> </div>
+  <!-- <pre id="fileContent"> </pre> -->
+  <!-- <input type="file" id="fileInput" multiple /> -->
+<div class="container p-3">
+<div class="mb-3">
+  <label for="formFile" class="form-label">Click <b>Choose file </b>, then click <b>Process File</b> at the left menu to tag and count each word in a text file.</label>
+  <p> Click <b> Download tagged file</b> if you want a .txt file with the corresponding tags.</p>
+  <input class="form-control" type="file" id="fileInput" multiple/>
+</div>
+ <div>
+  <button type="button" class="btn btn-primary" onclick="uploadFiles()">Process File</button>
+    <button id="DownloadButton" type="button" class="btn btn-primary"> Download tagged file</button>
+  </div>
+</div>
+
+    <div id="content">
+        <h3> Tagger and counter table </h3>
+        <div id="tableContainer"> </div>
+    </div>
 </div>
 </div>
-</div>
+
+</body>
 
 <script>
 
