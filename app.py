@@ -12,6 +12,8 @@ client = MongoClient(conn_str)
 db = client['db_perfilador']
 col_nouns = db['nouns_collection']
 col_verbs = db['verbs_collection']
+col_adjectives = db['adjectives_collection']
+col_adverbs = db['adverbs_collection']
 
 # TreeTagger setup
 os.environ['TAGDIR'] = '/app/treetagger'
@@ -28,6 +30,8 @@ def TagAndCount(text_file):
     # Build noun/verb lookup sets
     noun_keys = set()
     verb_keys = set()
+    adjective_keys = set()
+    adverb_keys = set()
     parsed_tags = []
 
     for tag in tags:
@@ -39,13 +43,20 @@ def TagAndCount(text_file):
                 noun_keys.add((word, pos))
             elif pos.startswith("V"):
                 verb_keys.add((word, pos))
+            elif pos.startswith("JJ"):
+                adjective_keys.add((word, pos))
+            elif pos.startswith("RB"):
+                adverb_keys.add((word,pos)) 
 
     # Perform bulk queries
     noun_docs = list(col_nouns.find({"$or": [{"complex_words": w, "PoS_tag": p} for w, p in noun_keys]}, {"_id": 0}))
     verb_docs = list(col_verbs.find({"$or": [{"complex_words": w, "PoS_tag": p} for w, p in verb_keys]}, {"_id": 0}))
+    adjective_docs = list(col_adjectives.find({"$or": [{"complex_words": w, "PoS_tag": p} for w, p in adjective_keys]}, {"_id": 0}))
+    adverb_docs = list(col_adverbs.find({"$or": [{"complex_words": w, "PoS_tag": p} for w, p in adverb_keys]}, {"_id": 0}))
 
     # Create lookup dictionary
-    lookup = {(doc["complex_words"], doc["PoS_tag"]): doc for doc in noun_docs + verb_docs}
+    lookup = {(doc["complex_words"], doc["PoS_tag"]): 
+              doc for doc in noun_docs + verb_docs + adjective_docs + adverb_docs}
 
     for word_upper, pos, original_word in parsed_tags:
         found = lookup.get((word_upper, pos))
@@ -72,9 +83,14 @@ def TagAndCount(text_file):
         'complex_words': lambda x: list(set(x)),
         'PoS_tag': lambda x: list(set(x))
     }).reset_index()
+    # NEW COLUMN: count how many complex words are in the list
+    result['count types'] = result["complex_words"].apply(
+        lambda x: len(x) if isinstance(x, list) else 1
+    )
 
     result["complex_words"] = result["complex_words"].apply(append_numerals)
     result['count_suffix'] = result["suffix"].map(counts_suffix)
+    
     return result, tagged_text
 
 # Flask setup
