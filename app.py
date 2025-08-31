@@ -15,83 +15,120 @@ col_verbs = db['verbs_collection']
 col_adjectives = db['adjectives_collection']
 col_adverbs = db['adverbs_collection']
 
+
 # TreeTagger setup
 os.environ['TAGDIR'] = '/app/treetagger'
 tagger = treetaggerwrapper.TreeTagger(TAGLANG='en', TAGDIR=os.getenv('TAGDIR'))
 if not os.getenv('TAGDIR'):
     raise EnvironmentError('Environment TAGDIR not set properly')
 
-# Optimized TagAndCount function
 def TagAndCount(text_file):
+    import re
+    import pandas as pd
+    from collections import Counter
+
     tags = tagger.tag_file(text_file)
     tagged_text = []
-    total_list = []
 
-    # Build noun/verb lookup sets
-    noun_keys = set()
-    verb_keys = set()
-    adjective_keys = set()
-    adverb_keys = set()
+    # Parse text into word_upper, pos, original_word
     parsed_tags = []
-
+    noun_keys, verb_keys, adjective_keys, adverb_keys = set(), set(), set(), set()
     for tag in tags:
         elem = tag.split('\t')
         if len(elem) == 3:
-            word, pos = elem[0].upper(), elem[1]
-            parsed_tags.append((word, pos, elem[0]))  # (upper_word, PoS, original_word)
+            word_upper, pos, word_orig = elem[0].upper(), elem[1], elem[0]
+            parsed_tags.append((word_upper, pos, word_orig))
             if pos.startswith("N"):
-                noun_keys.add((word, pos))
+                noun_keys.add((word_upper, pos))
             elif pos.startswith("V"):
-                verb_keys.add((word, pos))
+                verb_keys.add((word_upper, pos))
             elif pos.startswith("JJ"):
-                adjective_keys.add((word, pos))
+                adjective_keys.add((word_upper, pos))
             elif pos.startswith("RB"):
-                adverb_keys.add((word,pos)) 
+                adverb_keys.add((word_upper, pos))
 
-    # Perform bulk queries
-    noun_docs = list(col_nouns.find({"$or": [{"complex_words": w, "PoS_tag": p} for w, p in noun_keys]}, {"_id": 0}))
-    verb_docs = list(col_verbs.find({"$or": [{"complex_words": w, "PoS_tag": p} for w, p in verb_keys]}, {"_id": 0}))
-    adjective_docs = list(col_adjectives.find({"$or": [{"complex_words": w, "PoS_tag": p} for w, p in adjective_keys]}, {"_id": 0}))
-    adverb_docs = list(col_adverbs.find({"$or": [{"complex_words": w, "PoS_tag": p} for w, p in adverb_keys]}, {"_id": 0}))
+    # Count occurrences per word+PoS in text
+    word_pos_counter = Counter((w, pos) for w, pos, _ in parsed_tags)
 
-    # Create lookup dictionary
-    lookup = {(doc["complex_words"], doc["PoS_tag"]): 
-              doc for doc in noun_docs + verb_docs + adjective_docs + adverb_docs}
+    # Helper function to process a single collection
+    def process_collection(keys, collection):
+        if not keys:
+            return pd.DataFrame(columns=['suffix', 'PoS_tag', 'complex_words', 'fine_pos_tags',
+                                         'count_complex_words', 'sum_numerals'])
+        docs = list(collection.find(
+            {"$or": [{"complex_words": w, "PoS_tag": p} for w, p in keys]},
+            {"_id": 0}
+        ))
+        if not docs:
+            return pd.DataFrame(columns=['suffix', 'PoS_tag', 'complex_words', 'fine_pos_tags',
+                                         'count_complex_words', 'sum_numerals'])
 
-    for word_upper, pos, original_word in parsed_tags:
-        found = lookup.get((word_upper, pos))
-        if found:
-            total_list.append(found)
-            tagged_text.append(f"{found['complex_words']}_{found['PoS_tag']}_<{found['suffix']}>")
-        else:
-            tagged_text.append(f"{original_word}_{pos}_<NF>")
+        df = pd.DataFrame(docs)
 
-    # Prepare DataFrame and statistics
-    df_words = pd.DataFrame(total_list)
-    df_words = df_words[~df_words.isin(['NF']).any(axis=1)]
-    counts_suffix = df_words['suffix'].value_counts()
-    counts_words = df_words["complex_words"].value_counts()
-    list_count_words = [f'{index} {count}' for index, count in counts_words.items()]
-    mapping = {item.split()[0]: item.split()[1] for item in list_count_words}
+        # Append numerals based on word+PoS occurrences in the text
+        df['complex_words_num'] = df.apply(
+            lambda r: f"{r['complex_words']} ({word_pos_counter.get((r['complex_words'].upper(), r['PoS_tag']),0)})", axis=1
+        )
+        return df
 
-    def append_numerals(word):
-        if isinstance(word, list):  
-            return [f"{a} ({mapping.get(a, '')})" for a in word]
-        return f"{word} ({mapping.get(word, '')})"
+    # Process each collection
+    df_nouns = process_collection(noun_keys, col_nouns)
+    df_verbs = process_collection(verb_keys, col_verbs)
+    df_adjectives = process_collection(adjective_keys, col_adjectives)
+    df_adverbs = process_collection(adverb_keys, col_adverbs)
 
-    result = df_words.groupby('suffix').agg({
-        'complex_words': lambda x: list(set(x)),
-        'PoS_tag': lambda x: list(set(x))
+    # Concatenate all tables
+    df_all = pd.concat([df_nouns, df_verbs, df_adjectives, df_adverbs], ignore_index=True)
+
+    # Map fine PoS → coarse family
+    pos_map = {
+        "NN": "NN", "NNS": "NN",
+        "JJ": "JJ", "JJR": "JJ", "JJS": "JJ",
+        "VV": "VV", "VVD": "VV", "VVG": "VV", "VVN": "VV", "VVP": "VV", "VVZ": "VV",
+        "RB": "RB", "RBR": "RB", "RBS": "RB"
+    }
+    df_all['CoarsePoS'] = df_all['PoS_tag'].map(pos_map).fillna(df_all['PoS_tag'])
+
+    # Group by suffix + coarse PoS, merge words and fine PoS tags
+    df_grouped = df_all.groupby(['suffix', 'CoarsePoS']).agg({
+        'complex_words_num': lambda x: sorted(set(x)),
+        'PoS_tag': lambda x: sorted(set(x))  # Collect fine PoS tags
     }).reset_index()
-    # NEW COLUMN: count how many complex words are in the list
-    result['count types'] = result["complex_words"].apply(
-        lambda x: len(x) if isinstance(x, list) else 1
+
+    df_grouped['count_complex_words'] = df_grouped['complex_words_num'].apply(len)
+    df_grouped['sum_numerals'] = df_grouped['complex_words_num'].apply(
+        lambda lst: sum(int(m.group(1)) for w in lst if (m := re.search(r'\((\d+)\)', w)))
     )
 
-    result["complex_words"] = result["complex_words"].apply(append_numerals)
-    result['count_suffix'] = result["suffix"].map(counts_suffix)
-    
+    df_grouped = df_grouped.rename(columns={
+        'CoarsePoS': 'PoS_tag',
+        'complex_words_num': 'complex_words',
+        'PoS_tag': 'fine_pos_tags'
+    })
+
+    # Sort by PoS order and suffix
+    pos_order = ["NN", "JJ", "VV", "RB", "NF"]
+    pos_rank = {tag: i for i, tag in enumerate(pos_order)}
+    df_grouped['__pos_rank'] = df_grouped["PoS_tag"].map(pos_rank).fillna(len(pos_order))
+    result = df_grouped.sort_values(by=["__pos_rank", "suffix"]).drop(columns=["__pos_rank"]).reset_index(drop=True)
+
+    # Build tagged_text with correct counts per word+PoS
+    all_docs = list(col_nouns.find({}, {"_id": 0})) + \
+               list(col_verbs.find({}, {"_id": 0})) + \
+               list(col_adjectives.find({}, {"_id": 0})) + \
+               list(col_adverbs.find({}, {"_id": 0}))
+    lookup = {(doc["complex_words"], doc["PoS_tag"]): doc for doc in all_docs}
+
+    for word_upper, pos, word_orig in parsed_tags:
+        count = word_pos_counter.get((word_upper, pos), 0)
+        if (word_upper, pos) in lookup:
+            tagged_text.append(f"{word_orig}_{pos}_<{count}>")
+        else:
+            tagged_text.append(f"{word_orig}_{pos}_<NF>")
+
     return result, tagged_text
+
+
 
 # Flask setup
 app = Flask(__name__, template_folder="views/templates", static_folder="views/static")
