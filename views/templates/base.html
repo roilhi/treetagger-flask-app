@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+      crossorigin="anonymous"
+    />
+    <title>{% block title %}LCR Lab{% endblock %}</title>
+    <style>
+      :root {
+        --navbar-offset: 72px;
+      }
+      body {
+        padding-top: var(--navbar-offset);
+      }
+      .hero-logo {
+        max-width: 220px;
+        height: auto;
+      }
+    </style>
+    {% block extra_head %}{% endblock %}
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom fixed-top">
+      <div class="container">
+        <a class="navbar-brand fw-semibold" href="{{ url_for('home') }}">LCR Lab</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mainNavbar"
+          aria-controls="mainNavbar"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('home_mexlec') }}">MexLeC</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('home_all') }}">Morph</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('home_seminario') }}">Seminario</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% block people_link %}{{ url_for('home') }}#people{% endblock %}">People</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    {% block body %}{% endblock %}
+
+    <footer class="text-center text-lg-start bg-light text-muted border-top mt-5">
+      <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05)">
+        © 2024 Copyright:
+        <a class="text-reset fw-bold" href="https://lcrlab.com.mx/" target="_blank" rel="noopener noreferrer">LCR Lab</a>
+      </div>
+      <div class="container pb-4" style="max-width: 980px">
+        The LCR Lab name, logos (including color variations and sub-brands), visual identity, MexLeC corpus design, Morph
+        database and software, and related research materials are protected by intellectual property law. Use or
+        reproduction requires prior authorization, except where released under an explicit open license.
+      </div>
+    </footer>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FwVvYv1U3K1KQX4e8v2N0yWTVm4u79dQGq8u+qvQ0mD5gZQ2JdGqv0dQq8d7r1Xw"
+      crossorigin="anonymous"
+    ></script>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

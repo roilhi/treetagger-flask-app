@@ -1,195 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <title>-Morph-</title>
-    <style>
-        .title-centered{
-            margin-top: 30px;
-            margin-left: 120px;
-        }
-        .h3-centered{
-            margin-left: 120px;
-            /* margin-top: 50px;*/
-        }
-        #content {
-            margin-left: 210px;
-            padding: 20px;
-        }
-        .file-name {
-            cursor: pointer;
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-        .file-name:hover {
-            background-color: #f0f0f0;
-        }
-        table{
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        .inline-image {
-            width: 300px; /* Adjust the image width */
-            height: auto;
-            /*vertical-align: left; */
-            float: left;
-            margin-right: 10px; /* Optional spacing between image and text */
-        }
-        .button-space{
-            margin-top: 15px;
-        }
-        img {
-                max-width: 10%;
-                height: 10%;
-            }
-    </style>
-</head>
-<!--<div id="sideMenu">
-  <h3>Uploaded Files</h3>
-  <div id="fileList"></div>
-</div>-->
-<body>
-    <div>
-        <h2 class="title-centered"> Morph </h2>  
-        <h3 class="h3-centered"> A corpus-based web tool for derivational noun suffixes counting and the identification of the complex words containing them </h3>
-    </div>
- 
-<div class="container p-3">
-<div class="card mb-3" style="max-width: 740px;">
-  <div class="row g-0 d-flex align-items-center">
-    <div class="col-md-4">
-      <img src="/static/images/MorphLogo.jpg" class="img-fluid rounded-start" alt="Card image">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <p class="card-text"> This application has been developed by Universidad Autónoma del Estado de México & 
-    Universidad Autónoma de San Luis Potosi and financed by Secretaría de Ciencia, Humanidades, Tecnología e Innovación.
-    Morphological characteristics of the noun suffixes for this version have been 
-    adapted from Stein (2007), Laws & Ryder (2014) and Oxford University Press (2025).</p>
+{% extends "base.html" %}
+
+{% block title %}LCR Lab{% endblock %}
+
+{% block people_link %}#people{% endblock %}
+
+{% block body %}
+  <main class="container py-4 py-lg-5">
+    <section class="text-center mx-auto" style="max-width: 980px">
+      <img
+        src="{{ url_for('static', filename='images/LCR lab.svg') }}"
+        class="hero-logo img-fluid d-block mx-auto mb-3"
+        alt="LCR Lab logo"
+      />
+      <h1 class="h2 fw-semibold mb-3">LCR Lab: Learner Corpus Research Laboratory</h1>
+      <p class="lead text-body-secondary mb-4">
+        LCR Lab is an independent research initiative dedicated to the design, development, and analysis of learner corpora
+        and linguistically informed digital tools. The laboratory integrates corpus compilation, morphological database
+        construction, computational processing, and methodological innovation within a coherent research framework.
+      </p>
+    </section>
+
+    <section class="mx-auto" style="max-width: 980px">
+      <div class="card shadow-sm">
+        <div class="card-body p-4 p-lg-5">
+          <p class="mb-3">
+            Its work combines theoretical linguistics, corpus methodology, and applied computational approaches to examine
+            morphological structure, lexical development, and emergent patterns in learner language. Particular attention
+            is given to database curation, annotation alignment, and the systematic modelling of linguistic information
+            for research and pedagogical purposes.
+          </p>
+          <p class="mb-3">The laboratory currently hosts three core developments:</p>
+          <ul class="mb-0">
+            <li><a href="{{ url_for('home_mexlec') }}">MexLeC 3.0</a>, a longitudinal Mexican Learner Corpus</li>
+            <li><a href="{{ url_for('home_all') }}">Morph 1.0</a>, a morphological analysis tool and database</li>
+            <li>
+              <a href="{{ url_for('home_seminario') }}">Seminario Permanente de LCR</a>, a research seminar series devoted
+              to disseminate Learner Corpus Research methodology
+            </li>
+          </ul>
+        </div>
       </div>
-      <a href="{{ url_for('suff_table') }}" class="stretched-link">See suffixes table </a>
-    </div>
-  </div>
-</div>
+    </section>
 
-  <!-- <pre id="fileContent"> </pre> -->
-  <!-- <input type="file" id="fileInput" multiple /> -->
-<div class="container p-3">
-<div class="mb-3">
-  <label for="formFile" class="form-label">Click <b>Choose file </b>, then click <b>Process File</b> at the left menu to tag and count each word in a text file.</label>
-  <p> Click <b> Download tagged file</b> if you want a .txt file with the corresponding tags.</p>
-  <input class="form-control" type="file" id="fileInput" multiple/>
-</div>
- <div>
-  <button type="button" class="btn btn-primary" onclick="uploadFiles()">Process File</button>
-    <button id="DownloadButton" type="button" class="btn btn-primary"> Download tagged file</button>
-  </div>
-</div>
+    <section id="people" class="mx-auto pt-5" style="max-width: 980px">
+      <h2 class="h4 fw-semibold text-center mb-4">People</h2>
 
-    <div id="content">
-        <h3> Tagger and counter table </h3>
-        <div id="tableContainer"> </div>
-    </div>
-</div>
-</div>
+      <div class="row g-4">
+        <div class="col-12 col-md-6">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h3 class="h6 fw-semibold mb-1">Ana Abigahil Flores-Hernández</h3>
+              <div class="text-body-secondary small mb-3">Project Leader</div>
+              <div class="mb-3">
+                <a class="link-secondary text-decoration-none" href="mailto:mexicanlearnercorpus@gmail.com"
+                  >mexicanlearnercorpus@gmail.com</a
+                >
+              </div>
+              <p class="mb-0 text-body-secondary">
+                PhD in Linguistics, postdoctoral CONACYT grant-holder at the Faculty of Languages of the UAEM. Researcher
+                in second language acquisition through the assessment and analysis of learner corpora.
+              </p>
+            </div>
+          </div>
+        </div>
 
-</body>
-
-<script>
-
-  // Store the uploaded files
-  let uploadedFiles = [];
-
-  // Function to upload files
-  function uploadFiles() {
-      const files = document.getElementById('fileInput').files;
-      if (files.length === 0) {
-          alert('Please select at least one file.');
-          return;
-      }
-
-      const formData = new FormData();
-      for (let i = 0; i < files.length; i++) {
-          formData.append('files', files[i]);
-      }
-      fetch('/upload', {
-          method: 'POST',
-          body: formData
-      })
-      .then(response => response.json())
-      .then(data =>{
-        const fileListDiv = document.getElementById('tableContainer');
-        fileListDiv.innerHTML = 'Files are processing, please wait ...';
-        // 
-        return data;
-      })
-      .then(data => {
-          // uploadedFiles = [...uploadedFiles, ...data.files];
-          // updateFileList();
-          FetchTagAndCount(data.files);
-      })
-      .catch(error => console.error('Error uploading files:', error));
-  }
-
-  function updateFileList() {
-      const fileListDiv = document.getElementById('fileList');
-      fileListDiv.innerHTML = ''; 
-      uploadedFiles.forEach((file, index) => {
-          const fileNameDiv = document.createElement('div');
-          fileNameDiv.textContent = file;
-          fileNameDiv.classList.add('file-name');
-          fileNameDiv.onclick = () => FetchTagAndCount(file); // Attach event listener
-          fileListDiv.appendChild(fileNameDiv);
-      });
-  }
-  // Function to load the content of a selected file
-  let tag_list = [];
-  let tag_txt_filename;
-  function FetchTagAndCount(fileName) {
-      fetch(`/process/${fileName}`)
-          .then(response => response.json())
-          .then(data => {
-              const tableContainer =  document.getElementById('tableContainer');
-              tableContainer.innerHTML = data.table;
-              // console.log(data.tag_list);
-              tag_list = data.tag_list;
-              tag_txt_filename = fileName + '_tagged.txt';
-          })
-          .catch(error => console.error('Error processing data', error));
-  }
-
-  document.getElementById('DownloadButton').addEventListener("click",() => {
-        if (tag_list.length == 0){
-            alert("Please upload a file");
-            return;
-        }
-        //let tag_list_cleaned = tag_list.filter(item => item!='.' || item != ',' || item !='`');
-        // alert("Download has started");
-        let tag_data_unpacked = " ";
-        tag_list.forEach( tagged_word =>{
-            tag_data_unpacked += tagged_word.trim()+ " ";
-         }); 
-        // const text = JSON.stringify(tag_data_unpacked, null, 2); // Formatear JSON
-        const blob = new Blob([tag_data_unpacked], { type: "text/plain" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = tag_txt_filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    }
-  ); 
-</script>
-
-</html>
+        <div class="col-12 col-md-6">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h3 class="h6 fw-semibold mb-1">
+                <a href="https://roilhi.github.io/" target="_blank" rel="noopener noreferrer" class="text-decoration-none"
+                  >Roilhi Frajo Ibarra-Hernández</a
+                >
+              </h3>
+              <div class="text-body-secondary small mb-3">Software Developer</div>
+              <div class="mb-3">
+                <a class="link-secondary text-decoration-none" href="mailto:roilhi.ibarrah@ingenieria.unam.edu"
+                  >roilhi.ibarrah@ingenieria.unam.edu</a
+                >
+              </div>
+              <p class="mb-0 text-body-secondary">
+                PhD in Electronics and Telecommunications, Asocciated Professor C at the Faculty of Engineering UNAM.
+                Researcher in AI and Machine Learning development for Telecommunications Systems and Signal Processing.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}
