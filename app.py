@@ -141,6 +141,18 @@ if not os.path.exists(UPLOAD_FOLDER):
 def home():
     return render_template("home.html")
 
+@app.route('/morph')
+def home_all():
+    return render_template("morph.html")
+
+@app.route('/mexlec')
+def home_mexlec():
+    return render_template("mexlec.html")
+
+@app.route('/seminario')
+def home_seminario():
+    return render_template("seminario.html")
+
 @app.route('/upload', methods=['POST'])
 def upload_files():
     uploaded_files = request.files.getlist('files')

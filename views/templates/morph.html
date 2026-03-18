@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block title %}Morph{% endblock %}
+
+{% block extra_head %}
+  <style>
+    .title-centered {
+      margin-top: 30px;
+      margin-left: 120px;
+    }
+    .h3-centered {
+      margin-left: 120px;
+    }
+    #content {
+      margin-left: 210px;
+      padding: 20px;
+    }
+    .file-name {
+      cursor: pointer;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    .file-name:hover {
+      background-color: #f0f0f0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table,
+    th,
+    td {
+      border: 1px solid black;
+    }
+    th,
+    td {
+      padding: 10px;
+      text-align: left;
+    }
+    .inline-image {
+      width: 300px;
+      height: auto;
+      float: left;
+      margin-right: 10px;
+    }
+    .button-space {
+      margin-top: 15px;
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+  <main class="container py-4 py-lg-5">
+    <section class="mx-auto" style="max-width: 980px">
+      <div class="mb-4">
+        <h1 class="h2 fw-semibold mb-2">Morph</h1>
+        <p class="lead text-body-secondary mb-0">
+          A corpus-based web tool for derivational noun suffixes counting and the identification of the complex words containing them
+        </p>
+      </div>
+
+      <div class="card shadow-sm mb-4">
+        <div class="row g-0 d-flex align-items-center">
+          <div class="col-md-4 text-center p-3 p-md-0">
+            <img
+              src="{{ url_for('static', filename='images/Morph.svg') }}"
+              class="img-fluid rounded-start"
+              alt="Morph logo"
+              style="max-height: 180px"
+            />
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <p class="card-text mb-2">
+                This application has been developed by Universidad Autónoma del Estado de México &amp; Universidad Autónoma de San Luis
+                Potosi and financed by Secretaría de Ciencia, Humanidades, Tecnología e Innovación. Morphological characteristics of the
+                noun suffixes for this version have been adapted from Stein (2007), Laws &amp; Ryder (2014) and Oxford University Press
+                (2025).
+              </p>
+              <a href="{{ url_for('suff_table') }}">See suffixes table</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <div class="mb-3">
+            <label for="formFile" class="form-label">
+              Click <b>Choose file</b>, then click <b>Process File</b> to tag and count each word in a text file.
+            </label>
+            <p class="mb-2">Click <b>Download tagged file</b> if you want a .txt file with the corresponding tags.</p>
+            <input class="form-control" type="file" id="fileInput" multiple />
+          </div>
+          <div class="d-flex flex-wrap gap-2">
+            <button type="button" class="btn btn-primary" onclick="uploadFiles()">Process File</button>
+            <button id="DownloadButton" type="button" class="btn btn-primary">Download tagged file</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="h5 fw-semibold mb-3">Tagger and counter table</h2>
+          <div id="tableContainer"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+
+  // Store the uploaded files
+  let uploadedFiles = [];
+
+  // Function to upload files
+  function uploadFiles() {
+      const files = document.getElementById('fileInput').files;
+      if (files.length === 0) {
+          alert('Please select at least one file.');
+          return;
+      }
+
+      const formData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+          formData.append('files', files[i]);
+      }
+      fetch('/upload', {
+          method: 'POST',
+          body: formData
+      })
+      .then(response => response.json())
+      .then(data =>{
+        const fileListDiv = document.getElementById('tableContainer');
+        fileListDiv.innerHTML = 'Files are processing, please wait ...';
+        // 
+        return data;
+      })
+      .then(data => {
+          // uploadedFiles = [...uploadedFiles, ...data.files];
+          // updateFileList();
+          FetchTagAndCount(data.files);
+      })
+      .catch(error => console.error('Error uploading files:', error));
+  }
+
+  function updateFileList() {
+      const fileListDiv = document.getElementById('fileList');
+      fileListDiv.innerHTML = ''; 
+      uploadedFiles.forEach((file, index) => {
+          const fileNameDiv = document.createElement('div');
+          fileNameDiv.textContent = file;
+          fileNameDiv.classList.add('file-name');
+          fileNameDiv.onclick = () => FetchTagAndCount(file); // Attach event listener
+          fileListDiv.appendChild(fileNameDiv);
+      });
+  }
+  // Function to load the content of a selected file
+  let tag_list = [];
+  let tag_txt_filename;
+  function FetchTagAndCount(fileName) {
+      fetch(`/process/${fileName}`)
+          .then(response => response.json())
+          .then(data => {
+              const tableContainer =  document.getElementById('tableContainer');
+              tableContainer.innerHTML = data.table;
+              // console.log(data.tag_list);
+              tag_list = data.tag_list;
+              tag_txt_filename = fileName + '_tagged.txt';
+          })
+          .catch(error => console.error('Error processing data', error));
+  }
+
+  document.getElementById('DownloadButton').addEventListener("click",() => {
+        if (tag_list.length == 0){
+            alert("Please upload a file");
+            return;
+        }
+        //let tag_list_cleaned = tag_list.filter(item => item!='.' || item != ',' || item !='`');
+        // alert("Download has started");
+        let tag_data_unpacked = " ";
+        tag_list.forEach( tagged_word =>{
+            tag_data_unpacked += tagged_word.trim()+ " ";
+         }); 
+        // const text = JSON.stringify(tag_data_unpacked, null, 2); // Formatear JSON
+        const blob = new Blob([tag_data_unpacked], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = tag_txt_filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+  ); 
+  </script>
+{% endblock %}
