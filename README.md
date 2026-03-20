@@ -41,11 +41,14 @@ Para usar Morph, se deberán seguir los siguientes pasos:
 2. Dar clic en `Process File` (Procesar Archivo)
 <img width="1443" height="850" alt="image" src="https://github.com/user-attachments/assets/b3d021fb-95d1-4fb9-9391-f2d909b2b119" />
 3. La aplicación hará el etiquetado llamado a la librería *TreeTagger Wrapper*
+
 4. Se hará una consulta a la base de datos MongoDB para cada palabra de acuerdo con su etiqueta
+
 5. De acuerdo con las coincidencias en los sufijos y etiquetas de cada palabra se realizará un conteo
+
 6. El usuario podrá visualizar una tabla con el respectivo conteo de palabras y sufijos que se encuentren en la base de datos
    <img width="1435" height="857" alt="image" src="https://github.com/user-attachments/assets/6231e70b-2adf-4e7a-84df-364bd5f40b51" />
-8. Si el usuario lo desea, puede descargar el texto con las etiquetas por medio del botón `Download Tagged File`
+7. Si el usuario lo desea, puede descargar el texto con las etiquetas por medio del botón `Download Tagged File`
 <img width="1443" height="850" alt="image" src="https://github.com/user-attachments/assets/0987ca60-7ee6-48f8-8bbc-c1137e45b4a2" />
 <img width="1909" height="604" alt="image" src="https://github.com/user-attachments/assets/4646d15c-30a0-452e-a059-e90fe6ac19f1" />
  
