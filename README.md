@@ -1,5 +1,5 @@
 # 🧠 Proyecto LCR Lab
-El sitio web está disponible desde la url [lcrlab.com](lcrlab.com)
+El sitio web está disponible desde la url [lcrlab.com](lcrlab.com.mx)
 El laboratorio LCR es una iniciativa de investigación independiente dedicada al diseño, desarrollo y análisis de corpus y herramientas digitales ligüísticas. El laboratorio integra la compilación de corpus y construicción de bases de datos morfológicas, procesamiento computacional, metodología e innovación con un marco de investigación coherente.
 
 A través de LCR Lab se hospedan 3 iniciativas:
