@@ -30,24 +30,6 @@ To use the project, follow these steps:
 3. The tagged data will be stored in the MongoDB database.
 4. The user can view the tagged data by accessing the web application.
 
-## 📂 Project Structure
-```markdown
-lcr-lab/
-app.py
-docker-compose.yml
-Dockerfile
-requirements.txt
-views/
-templates/
-home.html
-base.html
-static/
-css/
-js/
-```
-
-## 📸 Screenshots
-
 ## 🤝 Contributing
 To contribute to the project, please fork the repository and submit a pull request with your changes.
 
@@ -55,7 +37,4 @@ To contribute to the project, please fork the repository and submit a pull reque
 The project is licensed under the MIT License.
 
 ## 📬 Contact
-For any questions or concerns, please contact us at [support@example.com](mailto:support@example.com).
-
-## 💖 Thanks Message
-We would like to thank all the contributors who have helped make this project a success. This is written by [readme.ai](https://readme-generator-phi.vercel.app/).
+For any questions or concerns, please contact us at [mexicanlearnercorpus@gmail.com](mexicanlearnercorpus@gmail.com).
