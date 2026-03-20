@@ -1,12 +1,12 @@
 # 🧠 Proyecto LCR Lab
-El sitio web está disponible desde la url [lcrlab.com.mx](lcrlab.com.mx)
+El sitio web está disponible desde la url [lcrlab.com.mx](https://lcrlab.com.mx)
 El laboratorio LCR es una iniciativa de investigación independiente dedicada al diseño, desarrollo y análisis de corpus y herramientas digitales ligüísticas. El laboratorio integra la compilación de corpus y construicción de bases de datos morfológicas, procesamiento computacional, metodología e innovación con un marco de investigación coherente.
 
 A través de LCR Lab se hospedan 3 iniciativas:
 
-- [**MexLeC 3.0:**](lcrlab.com.mx/mexlec) Corpus Longitudinal Mexicano de Aprendizaje 
-- [**Morph 1.0:**](lcrlab.com.mx/morph) Aplicación de análisis lingüístico de textos ligado a una base de datos
-- [**Seminario Permanente de LCR:**](lcrlab.com.mx/seminario) Series de seminarios para el intercambio académico de información sobre métodos de corpus de aprendizaje
+- [**MexLeC 3.0:**](https://lcrlab.com.mx/mexlec) Corpus Longitudinal Mexicano de Aprendizaje 
+- [**Morph 1.0:**](https://lcrlab.com.mx/morph) Aplicación de análisis lingüístico de textos ligado a una base de datos
+- [**Seminario Permanente de LCR:**](https://lcrlab.com.mx/seminario) Series de seminarios para el intercambio académico de información sobre métodos de corpus de aprendizaje
 
 # Morph: 
 Aplicación web basada en un corpus para el conteo de sufijos derivados y para la identificación de palabras complejas que los contengan.
