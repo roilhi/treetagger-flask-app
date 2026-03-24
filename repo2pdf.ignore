@@ -1,0 +1,4 @@
+{
+  "ignoredFiles": ["treetagger"],
+  "ignoredExtensions": [".perl",".pdf"]
+}
