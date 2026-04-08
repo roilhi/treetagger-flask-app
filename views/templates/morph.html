@@ -50,16 +50,34 @@
 {% endblock %}
 
 {% block body %}
+
   <main class="container py-4 py-lg-5">
     <section class="mx-auto" style="max-width: 980px">
       <div class="mb-4">
-        <h1 class="h2 fw-semibold mb-2">Morph</h1>
-        <p class="lead text-body-secondary mb-0">
-          A corpus-based web tool for derivational noun suffixes counting and the identification of the complex words containing them
-        </p>
+        <div class="row g-3 g-lg-4 align-items-start">
+          <div class="col-12 col-sm-auto flex-shrink-0 text-center text-sm-start">
+            <img
+              src="{{ url_for('static', filename='images/Morph.svg') }}"
+              class="img-fluid rounded-start d-block mx-auto mx-sm-0"
+              alt="Morph logo"
+              width="340"
+              height="263"
+              decoding="async"
+              style="max-width: min(100%, 340px); width: 100%; height: auto"
+            />
+          </div>
+          <div class="col min-w-0 text-start">
+            <h1 class="h2 fw-semibold mb-2">Morph</h1>
+            <p class="lead text-body-secondary mb-0">
+              Morph 1.0 is a rule and corpus-based Natural Language Processing (NLP) web application designed
+              to identify derivational suffixes and morphologically complex words in English texts.
+              The tool is intended for corpus-based research, with particular application to learner
+              corpora and the study of morphological productivity.
+            </p>
+          </div>
+        </div>
       </div>
-
-      <div class="card shadow-sm mb-4">
+      <!-- <div class="card shadow-sm mb-4">
         <div class="row g-0 d-flex align-items-center">
           <div class="col-md-4 text-center p-3 p-md-0">
             <img
@@ -81,7 +99,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
 
       <div class="card shadow-sm mb-4">
         <div class="card-body">
@@ -106,6 +124,28 @@
         </div>
       </div>
     </section>
+    <hr class="my-4" />
+    <h2 class="h4 fw-semibold">People</h2>
+      <p class="mb-0">  
+        <a href="https://sites.google.com/view/floresabigahil/p%C3%A1gina-principal" target="_blank" rel="noopener noreferrer"> Ana Abigahil Flores Hernández </a>
+      </p>
+      <p> Principal Investigator </p>
+      <p class="mb-0">
+        <a href="https://roilhi.github.io/" target="_blank" rel="noopener noreferrer"> Roilhi F. Ibarra-Hernández </a>
+      </p>
+      <p> Software Developer </p>
+      <hr class="my-4" />
+      <h2 class="h4 fw-semibold">How to cite</h2>
+          <p class="mb-3">Flores, A. & Ibarra, R. (2026). Morph 1.0: A corpus-based web 
+            application for derivational morphology and learner corpus analysis 
+            [Software and database]. DOI: [pending]
+          </p>
+      <h2 class="h4 fw-semibold">License</h2>
+      <p class="mb-0">
+        Morph 1.0 is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License
+        (CC BY-NC 4.0). Full license text available
+        <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">here</a>.
+      </p>
   </main>
 {% endblock %}
 
