@@ -52,23 +52,31 @@
 {% block body %}
 
   <main class="container py-4 py-lg-5">
-    <section class="text-center mx-auto" style="max-width: 980px">
-      <img
-        src="{{ url_for('static', filename='images/Morph.svg') }}"
-        class="img-fluid rounded-start"
-        alt="Morph logo"
-        style="max-width: 340px"
-      />
+    <section class="mx-auto" style="max-width: 980px">
       <div class="mb-4">
-        <h1 class="h2 fw-semibold mb-2">Morph</h1>
-        <p class="lead text-body-secondary mb-0">
-          Morph 1.0 is a rule and corpus-based Natural Language Processing (NLP) web application designed 
-          to identify derivational suffixes and morphologically complex words in English texts. 
-          The tool is intended for corpus-based research, with particular application to learner 
-          corpora and the study of morphological productivity.
-        </p>
+        <div class="row g-3 g-lg-4 align-items-start">
+          <div class="col-12 col-sm-auto flex-shrink-0 text-center text-sm-start">
+            <img
+              src="{{ url_for('static', filename='images/Morph.svg') }}"
+              class="img-fluid rounded-start d-block mx-auto mx-sm-0"
+              alt="Morph logo"
+              width="340"
+              height="263"
+              decoding="async"
+              style="max-width: min(100%, 340px); width: 100%; height: auto"
+            />
+          </div>
+          <div class="col min-w-0 text-start">
+            <h1 class="h2 fw-semibold mb-2">Morph</h1>
+            <p class="lead text-body-secondary mb-0">
+              Morph 1.0 is a rule and corpus-based Natural Language Processing (NLP) web application designed
+              to identify derivational suffixes and morphologically complex words in English texts.
+              The tool is intended for corpus-based research, with particular application to learner
+              corpora and the study of morphological productivity.
+            </p>
+          </div>
+        </div>
       </div>
-    </section>
 
       <div class="card shadow-sm mb-4">
         <div class="card-body">
