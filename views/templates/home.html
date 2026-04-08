@@ -14,96 +14,28 @@
       />
       <h1 class="h2 fw-semibold mb-3">LCR Lab: Learner Corpus Research Laboratory</h1>
       <p class="lead text-body-secondary mb-4">
-        LCR Lab is an independent research initiative dedicated to the design, development, and analysis of learner corpora
-        and linguistically informed digital tools. The laboratory integrates corpus compilation, morphological database
-        construction, computational processing, and methodological innovation within a coherent research framework.
+        LCR Lab is an independent research initiative dedicated to the design, 
+        development, and analysis of learner corpora and linguistically informed 
+        digital tools. The laboratory integrates corpus compilation, a 
+        morphological database construction for an NLP tool and a seminar 
+        series devoted to disseminate Learner Corpus Research methodologies 
+        and applications.
       </p>
     </section>
 
     <section class="mx-auto" style="max-width: 980px">
       <div class="card shadow-sm">
         <div class="card-body p-4 p-lg-5">
-          <p class="mb-3">
-            Its work combines theoretical linguistics, corpus methodology, and applied computational approaches to examine
-            morphological structure, lexical development, and emergent patterns in learner language. Particular attention
-            is given to database curation, annotation alignment, and the systematic modelling of linguistic information
-            for research and pedagogical purposes.
-          </p>
           <p class="mb-3">The laboratory currently hosts three core developments:</p>
           <ul class="mb-0">
             <li><a href="{{ url_for('home_mexlec') }}">MexLeC 3.0</a>, a longitudinal Mexican Learner Corpus</li>
             <li><a href="{{ url_for('home_all') }}">Morph 1.0</a>, a morphological analysis tool and database</li>
             <li>
-              <a href="{{ url_for('home_seminario') }}">Seminario Permanente de LCR</a>, a research seminar series devoted
-              to disseminate Learner Corpus Research methodology
-            </li>
+              <a href="{{ url_for('home_seminario') }}">Seminario Permanente de LCR</a>, community
           </ul>
         </div>
       </div>
     </section>
 
-    <section id="people" class="mx-auto pt-5" style="max-width: 980px">
-      <h2 class="h4 fw-semibold text-center mb-4">People</h2>
-
-      <div class="row g-4">
-        <div class="col-12 col-md-6">
-          <div class="card h-100 shadow-sm">
-            <div class="card-body">
-              <h3 class="h6 fw-semibold mb-1">Ana Abigahil Flores-Hernández</h3>
-              <div class="text-body-secondary small mb-3">Project Leader</div>
-              <div class="mb-3">
-                <a class="link-secondary text-decoration-none" href="mailto:mexicanlearnercorpus@gmail.com"
-                  >mexicanlearnercorpus@gmail.com</a
-                >
-              </div>
-              <p class="mb-0 text-body-secondary">
-                PhD in Linguistics, specialized in second language acquisition, 
-                learner corpus linguistics, and morphological awareness, 
-                with a focus on lexical development, morphological complexity, 
-                and learner language trajectories.
-                This virtual laboratory brings together research and resources developed 
-                under her direction, including the Mexican Learner Corpus (MexLeC), 
-                a longitudinal spoken corpus created in collaboration with universities 
-                across Mexico, and Morph, a web-based tool for the automatic 
-                identification of derivational suffixes, alongside materials from an 
-                ongoing research seminar. It reflects a commitment to open science, 
-                the development of linguistic resources, and data-driven approaches 
-                to language research.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-12 col-md-6">
-          <div class="card h-100 shadow-sm">
-            <div class="card-body">
-              <h3 class="h6 fw-semibold mb-1">
-                <a href="https://roilhi.github.io/" target="_blank" rel="noopener noreferrer" class="text-decoration-none"
-                  >Roilhi Frajo Ibarra-Hernández</a
-                >
-              </h3>
-              <div class="text-body-secondary small mb-3">Software Developer</div>
-              <div class="mb-3">
-                <a class="link-secondary text-decoration-none" href="mailto:roilhi.ibarrah@ingenieria.unam.edu"
-                  >roilhi.ibarrah@ingenieria.unam.edu</a
-                >
-              </div>
-              <p class="mb-0 text-body-secondary">
-                PhD in Electronics and Telecommunications, Asocciated Professor "C" 
-                at the Telecommunications Department of the Faculty of Engineering at UNAM.
-                Researcher in AI and Machine Learning development for Telecommunications 
-                Systems and Signal Processing. He is responsible for the design and development 
-                of Morph, a web-based tool for the automatic identification of 
-                derivational suffixes, and collaborates in the
-                development of the Mexican Learner Corpus (MexLeC) database and 
-                related computational resources. 
-                He contributes to the advancement of computational tools 
-                of the LCR lab for language research. 
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 {% endblock %}
