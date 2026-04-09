@@ -46,14 +46,48 @@
     .button-space {
       margin-top: 15px;
     }
+    .morph-page-nav {
+      top: var(--navbar-offset);
+      z-index: 1020;
+    }
+    [id^="morph-"] {
+      scroll-margin-top: calc(var(--navbar-offset) + 3.25rem);
+    }
   </style>
 {% endblock %}
 
 {% block body %}
 
   <main class="container py-4 py-lg-5">
+    <div class="mx-auto mb-3 px-0" style="max-width: 980px">
+      <nav
+        class="navbar navbar-expand navbar-light bg-body-secondary border rounded morph-page-nav sticky-top shadow-sm"
+        aria-label="Morph page sections"
+      >
+        <div class="container-fluid">
+          <span class="navbar-brand mb-0 text-body fw-semibold user-select-none">Morph</span>
+          <ul class="navbar-nav ms-auto flex-row flex-wrap gap-1 gap-sm-2 justify-content-end small">
+            <li class="nav-item">
+              <a class="nav-link py-1 px-2" href="#morph-about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link py-1 px-2" href="#morph-development">Development</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link py-1 px-2" href="#morph-test">Test Morph</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link py-1 px-2" href="#morph-research">Research Applications</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link py-1 px-2" href="#morph-people">People</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
     <section class="mx-auto" style="max-width: 980px">
-      <div class="mb-4">
+      <div class="mb-4" id="morph-about">
         <div class="row g-3 g-lg-4 align-items-start">
           <div class="col-12 col-sm-auto flex-shrink-0 text-center text-sm-start">
             <img
@@ -67,22 +101,90 @@
             />
           </div>
           <div class="col min-w-0 text-start">
-            <h1 class="h2 fw-semibold mb-2">Morph</h1>
+            <h1 class="h2 fw-semibold mb-2">A tool for derivational suffixes 
+              identification, counts and tagging </h1>
             <p class="lead text-body-secondary mb-0">
               Morph 1.0 is a rule and corpus-based Natural Language Processing (NLP) web application designed
               to identify derivational suffixes and morphologically complex words in English texts.
               The tool is intended for corpus-based research, with particular application to learner
-              corpora and the study of morphological productivity.
+              corpora and the study of morphological productivity. <br>
+              <a href="https://docs.google.com/document/d/1qLRWT2lpLrkC57MKqwRIJZNTAHrQUOeEAShxkyGVM8w/edit?usp=sharing"> See suffixes table </a>
             </p>
           </div>
         </div>
       </div>
-
-      <div class="card shadow-sm mb-4">
+    <div class="card shadow" id="morph-development">
+      <div class="card-header">
+      <h4> Development of Morph </h4>
+    </div>
+    <div class="card-body">
+      The development of Morph includes the next steps:
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"> 1. Suffix Compilation and Verification</h5>
+              <p class="card-text">A list of 90 derivational suffixes was compiled and 
+              verified using established morphological reference works, including Bauer, 
+              Lieber & Plag (2007); Stein (2007); Laws & Ryder (2014) and the Oxford English 
+              Dictionary (2026).Suffix descriptions were verified in terms of morphological 
+              function, word-class distribution, form and allomorphic variation, 
+              semantic contribution, orthographic alterations. Only suffixes with 
+              verified morphological status were included.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">2. Alignment of Existing Morphological Databases</h5>
+              <p class="card-text">Complex word candidates were identified through structured 
+                alignment of entries from MorphoQuantics (Laws & Ryder, 2026) and 
+                MorphoLex (Sánchez-Gutiérrez, Mailhot, Deacon & Williams, 2018). 
+                Suffix inventories from these databases were aligned to the verified 
+                90-suffix framework.</p>
+            </div>
+          </div>
+        </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">3. Manual Verification and Etymological Control</h5>
+            <p class="card-text">Where discrepancies or mismatches in morphological structure or etymology were 
+              identified, entries were manually verified using the Oxford English Dictionary.
+              This process ensured:
+              <ul>
+                <li>Accurate derivational segmentation</li>
+                <li>Correct base identification</li>
+                <li>Exclusion of opaque or non-derivational forms</li>
+              </ul>
+          </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">4. Lemma Standardisation and Inflectional Expansion</h5>
+            <p class="card-text">Verified complex forms were standardised as lemmas. Inflectional 
+              variants were added following verification through the Oxford English 
+              Dictionary and the British National Corpus (BNC) evidence. 
+              The resulting database contains approximately 27,791 complex 
+              word entries aligned to 90 derivational suffixes.</p>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<hr class="my-4" /> 
+      <div class="card shadow-sm mb-4" id="morph-test">
         <div class="card-body">
           <div class="mb-3">
+            <h3> Test Morph with your own files </h3>
             <label for="formFile" class="form-label">
-              Click <b>Choose file</b>, then click <b>Process File</b> to tag and count each word in a text file.
+              Click <b>Choose File</b>, then click <b>Process File</b> to tag and count each word in a text file.
             </label>
             <p class="mb-2">Click <b>Download tagged file</b> if you want a .txt file with the corresponding tags.</p>
             <input class="form-control" type="file" id="fileInput" multiple />
@@ -101,8 +203,21 @@
         </div>
       </div>
     </section>
+    <hr class="my-4">
+    <div id="morph-research">
+    <h4>Intended Research Applications</h4>
+    Morph is designed to support:
+    <ul>
+      <li>Morphological productivity studies</li>
+      <li>Learner corpus research</li>
+      <li>Interlanguage morphology analysis</li>
+      <li>Creative derivation studies</li>
+      <li>Type/token morphological profiling</li>
+      <li>Corpus-assisted language research</li>
+    </ul>
+    </div>
     <hr class="my-4" />
-    <h2 class="h4 fw-semibold">People</h2>
+    <h2 class="h4 fw-semibold" id="morph-people">People</h2>
       <p class="mb-0">  
         <a href="https://sites.google.com/view/floresabigahil/p%C3%A1gina-principal" target="_blank" rel="noopener noreferrer"> Ana Abigahil Flores Hernández </a>
       </p>
