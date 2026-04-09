@@ -36,10 +36,13 @@ a. `docker-compose up`
 
 ## 💻 Manual de uso
 Para usar Morph, se deberán seguir los siguientes pasos:
-1. Cargar un archivo de texto (.txt) en la aplicación:
-<img width="1680" height="858" alt="image" src="https://github.com/user-attachments/assets/e7560bb3-99eb-403d-81ca-4161d3ad0359" />
+1. Dar clic en el menú de Morph, en la sección Test Morph:
+   <img width="1256" height="431" alt="image" src="https://github.com/user-attachments/assets/15478c82-5b6e-4951-8a10-0284a10a6dee" />
+2. Cargar un archivo de texto (.txt) en la aplicación:
+<img width="1276" height="437" alt="image" src="https://github.com/user-attachments/assets/362f8a07-c4fe-4e57-a9fc-e4d9b2bead0d" />
 2. Dar clic en `Process File` (Procesar Archivo)
-<img width="1443" height="850" alt="image" src="https://github.com/user-attachments/assets/b3d021fb-95d1-4fb9-9391-f2d909b2b119" />
+<img width="1276" height="437" alt="image" src="https://github.com/user-attachments/assets/3ad34a6c-b48b-490d-8a70-d28d1786ba7a" />
+
 3. La aplicación hará el etiquetado llamado a la librería *TreeTagger Wrapper*
 
 4. Se hará una consulta a la base de datos MongoDB para cada palabra de acuerdo con su etiqueta
