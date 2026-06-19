@@ -153,6 +153,14 @@ def home_mexlec():
 def home_seminario():
     return render_template("seminario.html")
 
+@app.route('/projects')
+def home_projects():
+    return render_template("projects.html")
+
+@app.route('/community')
+def home_community():
+    return render_template("community.html")
+
 @app.route('/upload', methods=['POST'])
 def upload_files():
     uploaded_files = request.files.getlist('files')
