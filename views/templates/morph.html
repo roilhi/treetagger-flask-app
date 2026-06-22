@@ -105,7 +105,8 @@
               identification, counts and tagging </h1>
             <p class="lead text-body-secondary mb-0">
               Morph 1.0 is a rule and corpus-based Natural Language Processing (NLP) web application designed
-              to identify derivational suffixes and morphologically complex words in English texts.
+              to identify derivational suffixes and morphologically complex words in English texts. 
+              <br>
               The tool is intended for corpus-based research, with particular application to learner
               corpora and the study of morphological productivity. <br>
               <a href="https://docs.google.com/document/d/1qLRWT2lpLrkC57MKqwRIJZNTAHrQUOeEAShxkyGVM8w/edit?usp=sharing"> See suffixes table </a>
@@ -113,6 +114,32 @@
           </div>
         </div>
       </div>
+<!--*************** Test Morph section ***********************************************************-->
+<hr class="my-4" /> 
+      <div class="card shadow-sm mb-4" id="morph-test">
+        <div class="card-body">
+          <div class="mb-3">
+            <h3> Test Morph with your own files </h3>
+            <label for="formFile" class="form-label">
+              Click <b>Choose File</b>, then click <b>Process File</b> to tag and count each word in a text file.
+            </label>
+            <p class="mb-2">Click <b>Download tagged file</b> if you want a .txt file with the corresponding tags.</p>
+            <input class="form-control" type="file" id="fileInput" multiple />
+          </div>
+          <div class="d-flex flex-wrap gap-2">
+            <button type="button" class="btn btn-primary" onclick="uploadFiles()">Process File</button>
+            <button id="DownloadButton" type="button" class="btn btn-primary">Download tagged file</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="h5 fw-semibold mb-3">Tagger and counter table</h2>
+          <div id="tableContainer"></div>
+        </div>
+      </div>
+  <hr class="my-4" />
     <div class="card shadow" id="morph-development">
       <div class="card-header">
       <h4> Development of Morph </h4>
@@ -178,30 +205,6 @@
       </div>
     </div>
   </div>
-<hr class="my-4" /> 
-      <div class="card shadow-sm mb-4" id="morph-test">
-        <div class="card-body">
-          <div class="mb-3">
-            <h3> Test Morph with your own files </h3>
-            <label for="formFile" class="form-label">
-              Click <b>Choose File</b>, then click <b>Process File</b> to tag and count each word in a text file.
-            </label>
-            <p class="mb-2">Click <b>Download tagged file</b> if you want a .txt file with the corresponding tags.</p>
-            <input class="form-control" type="file" id="fileInput" multiple />
-          </div>
-          <div class="d-flex flex-wrap gap-2">
-            <button type="button" class="btn btn-primary" onclick="uploadFiles()">Process File</button>
-            <button id="DownloadButton" type="button" class="btn btn-primary">Download tagged file</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <h2 class="h5 fw-semibold mb-3">Tagger and counter table</h2>
-          <div id="tableContainer"></div>
-        </div>
-      </div>
     </section>
     <hr class="my-4">
     <div id="morph-research">
